@@ -1,0 +1,100 @@
+table {
+    border-collapse: collapse;
+    border-color: green;
+}
+th, td {
+    padding: 5px;
+}
+
+body {
+    background-color: black;
+    color: green;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+hr {
+    height: 2px;
+    background-color: green;
+    border: none;
+}
+
+form {
+    background-color: rgb(22, 22, 22);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+div {
+    background-color: rgba(0, 128, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input, select {
+    border-radius: 15px;
+    border: none;
+    padding: 5px;
+}
+
+input[type=text]:hover {
+    background-color: green;
+    transition: 300ms;
+}
+
+input[type=submit]:hover, select:hover {
+    cursor: pointer;
+    background-color: green;
+    transition: 300ms;
+}
+
+input:focus {
+    outline: none;
+}
+
+.checkmark {
+    position: absolute;
+    top: 297px;
+    left: 40px;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: green;
+    transition: 300ms;
+  }
+
+.checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: green;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+  
+.container .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
