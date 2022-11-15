@@ -34,6 +34,20 @@
         // Get target(s)
         $target=$_POST['target'];
 
+        // set IP address and API access key
+        $access_key = '2b8f5def91b09d6a6212ad5cdab35d1f';
+
+        // Initialize CURL:
+        $ch = curl_init('http://api.ipstack.com/'.$target.'?access_key='.$access_key.'');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Store the data:
+        $json = curl_exec($ch);
+        curl_close($ch);
+        
+        // Decode JSON response:
+        $api_result = json_decode($json, true);
+
         // Get scan technique
         $scan_types = array ("-sS","-sT","-sA","-sW","-sM","-sO");
         $scan_type = $scan_types[$_POST['scan_techn']];
@@ -51,7 +65,7 @@
         $xml = simplexml_load_file("scan.xml") or die("Error: Cannot create object");
 
         // Function get_data() collects all the data from $xml and displays in readable format
-        function get_data($xml, $exec) {
+        function get_data($xml, $exec, $api_result) {
             foreach ($xml->host as $host) {
 
                 echo "<div>";
@@ -61,6 +75,21 @@
                 if ($host->address['addrtype']=='ipv4')
                     echo "IP Address: " . $host->address['addr'] . "<br/>";
                     echo "Name: " . $host->hostnames->hostname['name'] . "<br/>";
+
+                echo "<h4>Host Location Details</h4>";
+
+                // Check if location data exists
+                if (!$api_result['city'] && !$api_result['region_name'] && !$api_result['country_name'] && !$api_result['zip'] && !$api_result['latitude'] && !$api_result['longitude'])
+                    echo "No location data available";
+                else {
+                    if ($api_result['city'] || $api_result['region_name'])
+                        echo $api_result['city'] . ", " . $api_result['region_name'] . "<br/>";
+                    echo $api_result['country_name'] . " " . $api_result['zip'] . "<br/>";
+                    if ($api_result['latitude'] || $api_result['longitude'])
+                        echo $api_result['latitude'] . ", " . $api_result['longitude'] . "<br/>";
+                }
+
+                
 
                 // Get OS info
                 if($host->os->osmatch['name'])
@@ -85,7 +114,7 @@
         }
         // Run
         echo "<h2 style='text-align:center;'>Scan Results</h2>";
-        get_data($xml, $exec);
+        get_data($xml, $exec, $api_result);
     } ?>
 
 </body>
