@@ -31,6 +31,8 @@
     <?php
     if (isset($_POST['submit'])) {   
 
+        echo "<h2 style='text-align:center;'>Scan Results</h2>";
+
         // Get target(s)
         $target=$_POST['target'];
 
@@ -113,7 +115,6 @@
             }
         }
         // Run
-        echo "<h2 style='text-align:center;'>Scan Results</h2>";
         get_data($xml, $exec, $api_result);
     } ?>
 
